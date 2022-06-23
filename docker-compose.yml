@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  mysql:
+    container_name: mysql-jooq
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: jooq_db
+      MYSQL_USER: jooq
+      MYSQL_PASSWORD: jooq
+    ports:
+      - "3306:3306"
+#    command: --default-authentication-plugin=mysql_native_password
