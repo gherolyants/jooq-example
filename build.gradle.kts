@@ -1,4 +1,3 @@
-import org.jooq.meta.Databases.database
 import org.jooq.meta.jaxb.Property
 
 plugins {
@@ -20,7 +19,7 @@ repositories {
 dependencies {
     jooqGenerator("mysql:mysql-connector-java:8.0.29")
     jooqGenerator("jakarta.xml.bind:jakarta.xml.bind-api:3.0.1")
-    jooqGenerator("org.jooq:jooq-meta-extensions-liquibase:3.16.7")
+    jooqGenerator("org.jooq:jooq-meta-extensions-liquibase:3.17.0")
     jooqGenerator("org.liquibase:liquibase-core:4.12.0")
     jooqGenerator(files("src/main/resources"))
 
@@ -28,14 +27,17 @@ dependencies {
     liquibaseRuntime("org.liquibase:liquibase-core:4.12.0")
 
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-jooq")
 
-    implementation("org.jooq", "jooq","3.16.7")
-    implementation("org.jooq", "jooq-meta","3.16.7")
-    implementation("org.jooq", "jooq-codegen","3.16.7")
+    implementation("org.jooq", "jooq","3.17.0")
+    implementation("org.jooq", "jooq-meta","3.17.0")
+    implementation("org.jooq", "jooq-codegen","3.17.0")
+
+    implementation("mysql:mysql-connector-java:8.0.29")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }
 
@@ -51,7 +53,7 @@ liquibase {
 
         this.arguments = mapOf(
             "logLevel" to "info",
-            "changeLogFile" to "src/main/resources/changelog.yaml",
+            "changeLogFile" to "src/main/resources/changelog.yml",
             "url" to dbUrl,
             "username" to dbUser,
             "password" to dbPassword,
@@ -69,13 +71,13 @@ jooq {
                     database.apply {
                         name = "org.jooq.meta.extensions.liquibase.LiquibaseDatabase"
                         properties = listOf(
-//                            Property().apply {
-//                                key = "rootPath"
-//                                value = "../src/main/resources"
-//                            },
+                            Property().apply {
+                                key = "dialect"
+                                value = "MYSQL"
+                            },
                             Property().apply {
                                 key = "scripts"
-                                value = "changelog.yaml"
+                                value = "changelog.yml"
                             },
                             Property().apply {
                                 key = "includeLiquibaseTables"
@@ -84,67 +86,11 @@ jooq {
                         )
                     }
                     target.apply {
-                        packageName = "org.gh"
+                        packageName = "org.gh.jooq"
                     }
-
                 }
             }
 
         }
     }
 }
-//myConfigurationName(sourceSets.main) {
-//    generator {
-//        database {
-//            name = 'org.jooq.meta.extensions.liquibase.LiquibaseDatabase'
-//            properties {
-//
-//                // Specify the root path, e.g. a path in your Maven directory layout
-//                property {
-//                    key = 'rootPath'
-//                    value = '${basedir}/src/main/resources'
-//                }
-//
-//                // Specify the relative path location of your XML, YAML, or JSON script.
-//                property {
-//                    key = 'scripts'
-//                    value = 'database.xml'
-//                }
-//            }
-//        }
-//    }
-//}
-
-//jooq {
-//    configurations {
-//        create("main") {  // name of the jOOQ configuration
-//            jooqConfiguration.apply {
-//                generator.apply {
-//                    database.apply {
-//                        name = "org.jooq.meta.extensions.liquibase.LiquibaseDatabase"
-//                        properties = listOf(
-//                            Property().apply {
-//                                key = "scripts"
-//                                value = "changelog.yaml"
-//                            },
-//                            Property().apply {
-//                                key = "includeLiquibaseTables"
-//                                value = "false"
-//                            }
-//                        )
-//                    }
-//                    generate.apply {
-//                        isDeprecated = false
-//                        isRecords = true
-//                        isImmutablePojos = true
-//                        isFluentSetters = true
-//                    }
-//                    target.apply {
-//                        packageName = "org.gh"
-//                    }
-//                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
-//                }
-//            }
-//        }
-//    }
-//}

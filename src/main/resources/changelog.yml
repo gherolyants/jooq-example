@@ -1,9 +1,10 @@
 databaseChangeLog:
 - changeSet:
-    id: 1655928750530-1
-    author: g (generated)
+    id: 1
+    author: gherolyants
     changes:
     - createTable:
+        tableName: author
         columns:
         - column:
             constraints:
@@ -16,12 +17,13 @@ databaseChangeLog:
               nullable: false
             name: name
             type: VARCHAR(100)
-        tableName: author
-- changeSet:
-    id: 1655928750530-2
-    author: g (generated)
-    changes:
+        - column:
+              constraints:
+                  nullable: true
+              name: birth_year
+              type: INT UNSIGNED
     - createTable:
+        tableName: author_book
         columns:
         - column:
             constraints:
@@ -33,12 +35,8 @@ databaseChangeLog:
               nullable: false
             name: book_id
             type: BIGINT
-        tableName: author_book
-- changeSet:
-    id: 1655928750530-3
-    author: g (generated)
-    changes:
     - createTable:
+        tableName: book
         columns:
         - column:
             constraints:
@@ -51,12 +49,8 @@ databaseChangeLog:
               nullable: false
             name: title
             type: VARCHAR(100)
-        tableName: book
-- changeSet:
-    id: 1655928750530-4
-    author: g (generated)
-    changes:
     - createTable:
+        tableName: reader
         columns:
         - column:
             constraints:
@@ -69,12 +63,8 @@ databaseChangeLog:
               nullable: false
             name: name
             type: VARCHAR(100)
-        tableName: reader
-- changeSet:
-    id: 1655928750530-5
-    author: g (generated)
-    changes:
     - createTable:
+        tableName: reader_book
         columns:
         - column:
             constraints:
@@ -86,51 +76,6 @@ databaseChangeLog:
               nullable: false
             name: book_id
             type: BIGINT
-        tableName: reader_book
-- changeSet:
-    id: 1655928750530-6
-    author: g (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: author_id
-        indexName: author_book_author_id
-        tableName: author_book
-- changeSet:
-    id: 1655928750530-7
-    author: g (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: book_id
-        indexName: author_book_book_id
-        tableName: author_book
-- changeSet:
-    id: 1655928750530-8
-    author: g (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: book_id
-        indexName: reader_book_book_id
-        tableName: reader_book
-- changeSet:
-    id: 1655928750530-9
-    author: g (generated)
-    changes:
-    - createIndex:
-        columns:
-        - column:
-            name: reader_id
-        indexName: reader_book_reader_id
-        tableName: reader_book
-- changeSet:
-    id: 1655928750530-10
-    author: g (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: author_id
         baseTableName: author_book
@@ -142,10 +87,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: author
         validate: true
-- changeSet:
-    id: 1655928750530-11
-    author: g (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: book_id
         baseTableName: author_book
@@ -157,10 +98,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: book
         validate: true
-- changeSet:
-    id: 1655928750530-12
-    author: g (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: reader_id
         baseTableName: reader_book
@@ -172,10 +109,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: reader
         validate: true
-- changeSet:
-    id: 1655928750530-13
-    author: g (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: book_id
         baseTableName: reader_book
@@ -187,4 +120,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: book
         validate: true
+#- changeSet:
+#    id: 2
+#    author: gherolyants
+#    changes:
+#    - dropColumn:
+#        tableName: author
+#        columns:
+#            name: birth_year
 
